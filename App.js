@@ -27,7 +27,10 @@ class App extends Component {
     super(props);
 
     this.state = {
-      inputValue: 0
+      previousInputValue: 0,
+      inputValue: 0,
+      selectedSymbol: null
+
     }
   }
 
@@ -60,6 +63,7 @@ class App extends Component {
               inputRow.push(
                   <InputButton 
                     value={input} 
+                    highlight={this.state.selectedSymbol === input}
                     onPress={this._onInputButtonPressed.bind(this, input)} 
                     key={r + "-" + i} 
                   />
@@ -76,6 +80,8 @@ class App extends Component {
     switch (typeof input) {
       case 'number':
         return this._handleNumberInput(input);
+      case 'string':
+        return this._handleStringInput(input);
     }
 }
 
@@ -85,6 +91,36 @@ _handleNumberInput(num) {
   this.setState({
     inputValue: inputValue
   });
+}
+
+_handleStringInput(str) {
+  switch (str) {
+    case '/':
+    case '*':
+    case '+':
+    case '-':
+      this.setState({
+        selectedSymbol: str,
+        previousInputValue: this.state.inputValue,
+        inputValue: 0
+      });
+
+      case '=':
+        let symbol = this.state.selectedSymbol,
+          inputValue = this.state.inputValue,
+          previousInputValue = this.state.previousInputValue;
+
+          if  (!symbol) {
+            return;
+          }
+
+          this.setState({
+            previousInputValue: 0,
+            inputValue: eval(previousInputValue + symbol + inputValue),
+            selectedSymbol: null
+          });
+      break;
+  }
 }
 
 }

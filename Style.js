@@ -47,6 +47,10 @@ var Style = StyleSheet.create({
         textAlign: 'right',
         padding: 20
     },
+
+    inputButtonHighlighted: {
+        backgroundColor: '#193441'
+    },
 });
 
 export default Style;
