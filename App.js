@@ -29,7 +29,7 @@ class App extends Component {
     this.state = {
       previousInputValue: 0,
       inputValue: 0,
-      selectedSymbol: null
+      selectedSymbol: null,
 
     }
   }
@@ -86,11 +86,24 @@ class App extends Component {
 }
 
 _handleNumberInput(num) {
-  let inputValue = (this.state.inputValue * 10) + num;
+  
+  let inputValue = this.state.inputValue; 
+  let numString = (inputValue).toString();
+  let decimalPlace = numString.indexOf('.');
+  
+  if(decimalPlace == -1){
+    inputValue = (this.state.inputValue * 10) + num;
+  }
+
+  else{
+    
+    inputValue = this.state.inputValue + num;
+  } 
 
   this.setState({
-    inputValue: inputValue
+      inputValue: inputValue
   });
+  
 }
 
 _handleStringInput(str) {
@@ -119,6 +132,16 @@ _handleStringInput(str) {
             inputValue: eval(previousInputValue + symbol + inputValue),
             selectedSymbol: null
           });
+
+      break;
+
+      case '.':
+      let inputV = (this.state.inputValue);
+
+        this.setState({ 
+          inputValue: inputV + '.'
+        }); 
+ 
       break;
   }
 }
