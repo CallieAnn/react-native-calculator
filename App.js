@@ -96,8 +96,8 @@ _handleNumberInput(num) {
   }
 
   else{
-    
-    inputValue = this.state.inputValue + num;
+  
+    inputValue = numString + num;
   } 
 
   this.setState({
